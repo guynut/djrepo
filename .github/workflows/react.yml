@@ -38,6 +38,11 @@ jobs:
     - name: Install Dependencies
 
       run: npm ci
+    
+    - name: Lint
+      run: |
+        npm install -D eslint
+        npx eslint .
 
     - name: Build
 

@@ -2,7 +2,7 @@ name: Django CI
 
 on:
   push:
-    # branches: ["wk05"]
+    branches: ["wk05"]
 
     paths:
       - "backend/**" # ทำงานเฉพาะเมื่อแก้ backend
@@ -39,3 +39,6 @@ jobs:
       - name: Run Tests
         run: |
           python manage.py test
+      - name: Lint with flake8
+          run: |
+            pip install flake8
