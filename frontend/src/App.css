@@ -91,6 +91,12 @@
   padding-left: 0;
 }
 
+.resume-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 .resume-card.with-accent {
   border-left: 4px solid #8b7355;
 }
