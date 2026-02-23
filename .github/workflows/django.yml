@@ -2,11 +2,11 @@ name: Django CI
 
 on:
   push:
-    branches: ["wk05"]
+    # branches: ["wk05"]
 
     paths:
       - "backend/**" # ทำงานเฉพาะเมื่อแก้ backend
-      - ".github/workflows/django.yml"
+      # - ".github/workflows/django.yml"
 
   pull_request:
     branches: ["wk05"]
