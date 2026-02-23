@@ -6,6 +6,7 @@ on:
 
     paths:
       - "backend/**" # ทำงานเฉพาะเมื่อแก้ backend
+      - ".github/workflows/django.yml"
 
   pull_request:
     branches: ["wk05"]
