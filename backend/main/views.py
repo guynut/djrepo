@@ -6,12 +6,26 @@ from django.contrib.auth.models import User
 from main.models import Resume, Rating, Skill, Education, PreviousJob, Company
 from main.forms import ResumeForm, SkillForm, EducationForm, PreviousJobForm
 from rest_framework import viewsets
-from main.serializers import ResumeSerializer, PreviousJobSerializer, EducationSerializer, SkillSerializer
+from main.serializers import (
+    ResumeSerializer,
+    ResumeListSerializer,
+    ResumeDetailSerializer,
+    PreviousJobSerializer,
+    EducationSerializer,
+    SkillSerializer,
+)
 
 
 class ResumeViewSet(viewsets.ModelViewSet):
     queryset = Resume.objects.all()
     serializer_class = ResumeSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ResumeListSerializer
+        if self.action == 'retrieve':
+            return ResumeDetailSerializer
+        return ResumeSerializer
 
 class PreviousJobViewSet(viewsets.ModelViewSet):
     queryset = PreviousJob.objects.all()

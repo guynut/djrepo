@@ -52,15 +52,19 @@ class ResumeAPITest(TestCase):
         
 
     def test_list_resumes(self):
-        response = self.client.get('/resumes/')
+        response = self.client.get('/api/resumes/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['owner'], self.owner.id)
+        self.assertEqual(response.data[0]['title'], 'john')
+        self.assertIn('skills', response.data[0])
 
     def test_retrieve_resume(self):
-        response = self.client.get(f'/resumes/{self.resume.id}/')
+        response = self.client.get(f'/api/resumes/{self.resume.id}/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['owner'], self.owner.id)
+        self.assertEqual(response.data['title'], 'john')
+        self.assertIn('education', response.data)
+        self.assertIn('previous_jobs', response.data)
+        self.assertIn('average_rating', response.data)
 
     def test_create_skill(self):
         data = {
@@ -68,7 +72,7 @@ class ResumeAPITest(TestCase):
             'name': 'Django',
         }
         self.client.force_authenticate(user=self.owner)
-        response = self.client.post('/skills/', data)
+        response = self.client.post('/api/skills/', data)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Skill.objects.count(), 2)
         self.assertEqual(response.data['resume'], self.resume.id)
@@ -78,29 +82,29 @@ class ResumeAPITest(TestCase):
             'resume': self.resume.id,
             'name': 'New Skill'
         }
-        response = self.client.put(f'/skills/{self.skill.id}/', data)
+        response = self.client.put(f'/api/skills/{self.skill.id}/', data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['resume'], self.resume.id)
 
     def test_delete_resume(self):
-        response = self.client.delete(f'/resumes/{self.resume.id}/')
+        response = self.client.delete(f'/api/resumes/{self.resume.id}/')
         self.assertEqual(response.status_code, 204)
         self.assertEqual(Resume.objects.count(), 0)
 
     def test_list_previous_jobs(self):
-        response = self.client.get('/previous-jobs/')
+        response = self.client.get('/api/previous-jobs/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['company'], self.company.id)
 
     def test_list_educations(self):
-        response = self.client.get('/educations/')
+        response = self.client.get('/api/educations/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['school_name'], 'University of Technology')
 
     def test_list_skills(self):
-        response = self.client.get('/skills/')
+        response = self.client.get('/api/skills/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['name'], 'Python')
