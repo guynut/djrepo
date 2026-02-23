@@ -20,7 +20,8 @@ jobs:
     defaults:
       run:
         working-directory: ./frontend
-  steps:
+
+    steps:
     - uses: actions/checkout@v4
 
     - name: Set up Node.js
