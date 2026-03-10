@@ -1,0 +1,12 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+<p>Create a new account to log in to the admin site.</p>
+<form method="post" id="register-form">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Register">
+</form>
+<p><a href="{% url 'admin:login' %}">Already have an account? Log in.</a></p>
+{% endblock %}

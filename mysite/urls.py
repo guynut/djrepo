@@ -18,9 +18,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from main import views as main_views
 
 urlpatterns = [
     path('', include('main.urls')),
+    path('admin/register/', main_views.admin_register, name='admin_register'),
     path('admin/', admin.site.urls),
 ] 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

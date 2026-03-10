@@ -3,9 +3,27 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Avg, Q
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from main.models import Resume, Rating, Skill, Education, PreviousJob, Company
 from main.forms import ResumeForm, SkillForm, EducationForm, PreviousJobForm
 from main.utils import generate_fake_resumes
+
+
+def admin_register(request):
+    """Registration view for admin site: create username + password, then redirect to admin login."""
+    if request.user.is_authenticated:
+        return redirect('admin:index')
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            # user = form.save(commit=False)
+            # user.is_staff = True
+            user.save()
+            messages.success(request, "Account created. You can log in now.")
+            return redirect('admin:login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'main/admin_register.html', {'form': form})
 
 def landing_page(request):
     query = request.GET.get('q', '').strip()
